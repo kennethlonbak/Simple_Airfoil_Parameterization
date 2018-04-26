@@ -21,11 +21,11 @@ def param2coor(x, y, TE_wedge, TE_angle,
     y_up = y_th+y_ca
     y_lo = -y_th + y_ca
 
-    x_out = py.append(py.flip(x_vec[1:],0), x_vec)
+    x_out = py.concatenate((x_vec[1:][::-1],x_vec))
     if coordinate_dir == "clock":
-        y_out = py.append(py.flip(y_lo[1:],0),y_up)
+        y_out = py.concatenate((y_lo[1:][::-1],y_up))
     else:
-        y_out = py.append(py.flip(y_up[1:],0), y_lo)
+        y_out = py.concatenate((y_up[1:][::-1],y_lo))
 
     if return_param:
         import collections
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     coor, param = param2coor(x, y, TE_wedge, TE_angle, return_param=True)
     print(param)
-    ax[2].plot(*coor, '-')
+    ax[2].plot(*coor.T, '-')
     ax[2].axis("equal")
     py.show()
 
